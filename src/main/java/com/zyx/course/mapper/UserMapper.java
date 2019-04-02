@@ -26,7 +26,7 @@ public interface UserMapper {
             "</script>")
     List<DataVo> selectUserList(@Param("id") Integer id);
 
-    @Select("select * from user where number=#{eo.number} and password=#{eo.password}")
+    @Select("select * from user where number=#{eo.number} and password=#{eo.password} and dr=0")
     UserEo selectUser(@Param("eo") UserEo UserEo);
 
     @Insert("insert into project_date (beginTime,endTime)values(#{eo.beginTime},#{eo.endTime})")

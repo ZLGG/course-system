@@ -9,9 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new Interceptor()).addPathPatterns("/**")
+        registry.addInterceptor(new Interceptor()).addPathPatterns("/test/**")
                 .excludePathPatterns("/test/back-login")
                 .excludePathPatterns("/signOut")
+                .excludePathPatterns("/static/**")
+                .excludePathPatterns("/js/**")
                 .excludePathPatterns("/");
         // .excludePathPatterns("/layui/**");
     }
