@@ -40,9 +40,9 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/getUserList")
-    public Result getUserList(Integer pageSize, Integer limit) {
-        List<DataVo> dataVos = UserService.selectUserList(null);
-        for (DataVo dataVoataVo : dataVos) {
+    public Result getUserList(Integer page, Integer limit) {
+        Result result = UserService.selectUserList(null, page, limit);
+        for (DataVo dataVoataVo : (List<DataVo>)result.getData()) {
             if (dataVoataVo.getRole() == 0) {
                 dataVoataVo.setRoleName("学生");
             } else if (dataVoataVo.getRole() == 1) {
@@ -51,7 +51,7 @@ public class UserController {
                 dataVoataVo.setRoleName("管理员");
             }
         }
-        return new Result(0, "111", dataVos, 1);
+        return result;
     }
 
     @ResponseBody
@@ -130,6 +130,10 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/addUser")
     public Result addUser(UserEo DataVo) {
+        UserEo userEo = UserService.selectUserByNumber(DataVo.getNumber());
+        if (userEo != null) {
+            return new Result(1, "", "");
+        }
         UserService.insertUser(DataVo);
         return new Result(200, "", "");
     }

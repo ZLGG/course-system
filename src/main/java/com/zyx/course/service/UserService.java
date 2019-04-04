@@ -1,5 +1,6 @@
 package com.zyx.course.service;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.zyx.course.eo.*;
 import com.zyx.course.mapper.UserMapper;
 import com.zyx.course.vo.DataVo;
@@ -14,9 +15,11 @@ public class UserService {
     @Resource
     private UserMapper UserMapper;
 
-    public List<DataVo> selectUserList(Integer id) {
-        List<DataVo> userEos = UserMapper.selectUserList(id);
-        return userEos;
+    public Result selectUserList(Integer id,Integer page,Integer limit) {
+        page = (page - 1) * limit;
+        List<DataVo> userEos = UserMapper.selectUserList(id,page,limit);
+        Integer count = UserMapper.selectCount();
+        return new Result(0,"",userEos,count);
     }
 
     @Transactional
@@ -56,7 +59,9 @@ public class UserService {
         UserMapper.updateUser(UserEo);
 
     }
-
+    public UserEo selectUserByNumber(String number) {
+        return UserMapper.selectUserByNumber(number);
+    }
 
 
 }

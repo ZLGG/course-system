@@ -23,8 +23,9 @@ public interface UserMapper {
             "select * from user " +
             "where dr = 0" +
             "<if test='id!=null'>and id= #{id}</if>" +
+            " limit #{page},#{limit}" +
             "</script>")
-    List<DataVo> selectUserList(@Param("id") Integer id);
+    List<DataVo> selectUserList(@Param("id") Integer id, @Param("page") Integer page, @Param("limit") Integer limit);
 
     @Select("select * from user where number=#{eo.number} and password=#{eo.password} and dr=0")
     UserEo selectUser(@Param("eo") UserEo UserEo);
@@ -53,4 +54,7 @@ public interface UserMapper {
 
     @Select("select * from user where role=1")
     List<DataVo> getTeacher();
+
+    @Select("select * from user u where u.dr = 0 and u.number = #{number}")
+    UserEo selectUserByNumber(@Param("number") String number);
 }
